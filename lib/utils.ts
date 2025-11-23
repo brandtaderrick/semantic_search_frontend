@@ -1,3 +1,13 @@
+import { type ClassValue, clsx } from "clsx"
+import { twMerge } from "tailwind-merge"
+
+/**
+ * Merge class names with tailwind-merge to handle conflicts
+ */
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
+}
+
 /**
  * Parse a GitHub file URL into repo_url and file_path components
  * Example: https://github.com/llvm/llvm-project/blob/main/llvm/include/llvm/ADT/StringRef.cpp

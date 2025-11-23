@@ -1,50 +1,58 @@
 import Link from "next/link";
+import { Boxes } from "@/components/ui/background-boxes";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
-      <div className="max-w-6xl mx-auto px-4 py-16">
+    <div className="min-h-screen relative bg-slate-950 overflow-hidden">
+      {/* 3D Background Grid */}
+      <div className="absolute inset-0 w-full h-full">
+        <Boxes />
+      </div>
+
+      {/* Content Overlay */}
+      <div className="relative z-10 min-h-screen bg-gradient-to-br from-slate-950/90 via-slate-900/80 to-slate-950/90">
+        <div className="max-w-6xl mx-auto px-4 py-16">
         {/* Header */}
         <div className="text-center mb-16">
           <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
             Semantic Search for Legacy Code
           </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+          <p className="text-xl text-gray-300 max-w-2xl mx-auto">
             Reduce onboarding time by 40%. AI-powered search that understands your legacy codebase.
           </p>
         </div>
 
         {/* Value Proposition */}
         <div className="grid md:grid-cols-3 gap-8 mb-16">
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
+          <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 p-6 rounded-lg shadow-lg hover:bg-slate-800/70 transition-all">
             <div className="text-3xl mb-3">🔍</div>
-            <h3 className="text-xl font-semibold mb-2">Semantic Understanding</h3>
-            <p className="text-gray-600 dark:text-gray-400">
+            <h3 className="text-xl font-semibold mb-2 text-white">Semantic Understanding</h3>
+            <p className="text-gray-400">
               Ask questions in natural language. Our AI understands intent, not just keywords.
             </p>
           </div>
 
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
+          <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 p-6 rounded-lg shadow-lg hover:bg-slate-800/70 transition-all">
             <div className="text-3xl mb-3">⚡</div>
-            <h3 className="text-xl font-semibold mb-2">Instant Answers</h3>
-            <p className="text-gray-600 dark:text-gray-400">
+            <h3 className="text-xl font-semibold mb-2 text-white">Instant Answers</h3>
+            <p className="text-gray-400">
               Get synthesized answers from your codebase and external documentation in seconds.
             </p>
           </div>
 
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
+          <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 p-6 rounded-lg shadow-lg hover:bg-slate-800/70 transition-all">
             <div className="text-3xl mb-3">📚</div>
-            <h3 className="text-xl font-semibold mb-2">Legacy Code Friendly</h3>
-            <p className="text-gray-600 dark:text-gray-400">
+            <h3 className="text-xl font-semibold mb-2 text-white">Legacy Code Friendly</h3>
+            <p className="text-gray-400">
               Perfect for undocumented code, weird decisions, and obscure syntax from older languages.
             </p>
           </div>
         </div>
 
         {/* Problem Statement */}
-        <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg mb-12">
-          <h2 className="text-2xl font-bold mb-4">The Problem</h2>
-          <ul className="space-y-3 text-gray-600 dark:text-gray-300">
+        <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 p-8 rounded-lg shadow-lg mb-12">
+          <h2 className="text-2xl font-bold mb-4 text-white">The Problem</h2>
+          <ul className="space-y-3 text-gray-300">
             <li className="flex items-start">
               <span className="text-red-500 mr-2">•</span>
               <span><strong>40% of dev time</strong> is spent working with legacy code</span>
@@ -94,13 +102,13 @@ export default function Home() {
           >
             Start Searching →
           </Link>
-          <p className="mt-4 text-gray-600 dark:text-gray-400">
+          <p className="mt-4 text-gray-400">
             No signup required. Just paste a GitHub URL and start asking questions.
           </p>
         </div>
 
         {/* Example */}
-        <div className="mt-16 bg-gray-800 p-6 rounded-lg">
+        <div className="mt-16 bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 p-6 rounded-lg">
           <h3 className="text-white font-semibold mb-3">Example Usage:</h3>
           <div className="space-y-2 font-mono text-sm">
             <div className="text-green-400">User: https://github.com/llvm/llvm-project/blob/main/llvm/include/llvm/ADT/StringRef.cpp</div>
@@ -108,6 +116,7 @@ export default function Home() {
             <div className="text-green-400">User: Explain how the find function works in this file</div>
             <div className="text-blue-400">AI: The find function uses std::memcmp for efficient memory comparison...</div>
           </div>
+        </div>
         </div>
       </div>
     </div>

@@ -9,10 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "ai": "^3.4.33",
+    "clsx": "^2.1.1",
+    "framer-motion": "^12.23.24",
     "next": "14.2.18",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "ai": "^3.4.33"
+    "tailwind-merge": "^3.4.0"
   },
   "devDependencies": {
     "@types/node": "^20",
