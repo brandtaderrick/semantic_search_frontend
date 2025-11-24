@@ -154,7 +154,7 @@ export default function Home() {
           <div className="space-y-2 font-mono text-sm">
             <div className="text-green-400">User: https://github.com/llvm/llvm-project/blob/main/llvm/include/llvm/ADT/StringRef.cpp</div>
             <div className="text-gray-400">AI: ✓ File ingested and embedded successfully</div>
-            <div className="text-green-400">User: Explain how the find function works in this file</div>
+            <div className="text-green-400">User: Explain how the find function works in the StringRef.cpp file</div>
             <div className="text-blue-400">AI: The find function uses std::memcmp for efficient memory comparison...</div>
           </div>
         </div>
