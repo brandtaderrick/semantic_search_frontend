@@ -65,7 +65,6 @@ export async function POST(req: NextRequest) {
 Use the \`/ingest\` command to add files to the knowledge base:
 
 \`\`\`/ingest https://github.com/owner/repo/blob/main/src/main.cpp
-
 **What happens during ingestion:**
 1. **Fetches** the file from GitHub
 2. **Summarizes** the code using Claude AI
@@ -73,7 +72,6 @@ Use the \`/ingest\` command to add files to the knowledge base:
 4. **Stores** in MongoDB Atlas with vector search index
 
 ## 🔍 Search Strategies
-
 When you ask a question, an **AI agent (Claude Sonnet)** analyzes your query and intelligently chooses the best search strategy:
 
 ### 1️⃣ Local Strategy
@@ -95,7 +93,6 @@ When you ask a question, an **AI agent (Claude Sonnet)** analyzes your query and
 - Example: *"How does this auth code compare to OAuth best practices?"*
 
 ## 🤖 How the Agent Decides
-
 The AI agent uses **tool calling** to decide:
 1. Analyzes your question's intent
 2. Considers whether it's about local code or general knowledge
@@ -103,7 +100,6 @@ The AI agent uses **tool calling** to decide:
 4. Provides reasoning for its choice
 
 ## ✨ Answer Synthesis
-
 After retrieving results, **Claude Haiku** synthesizes a natural language answer:
 - Combines information from all search results
 - Provides clear, concise explanations
@@ -111,7 +107,6 @@ After retrieving results, **Claude Haiku** synthesizes a natural language answer
 - Uses fast, cost-efficient Haiku model for speed
 
 ## 🎯 Tips
-
 - **Ingest multiple files** to build a comprehensive knowledge base
 - **Ask specific questions** for local search
 - **Ask conceptual questions** to trigger external search
