@@ -12,7 +12,7 @@ export default function ChatInterface() {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'assistant',
-      content: '👋 Welcome! I can help you understand code from your ingested repositories.\n\n**To ingest a file, use the `/ingest` command:**\n- `/ingest https://github.com/owner/repo path/to/file.py`\n- `/ingest https://github.com/owner/repo/blob/main/path/to/file.cpp`\n\n**Then ask me questions:**\n- "Explain how the authentication works"\n- "What does this function do?"\n- "Give me an overview of this code"\n\n**Pro tip:** You can ingest multiple files and ask questions about all of them!'
+      content: '👋 Welcome! I can help you understand code from your ingested repositories.\n\n**Quick Start:**\n- Type `/help` to learn how the system works\n- Use `/ingest` to add code files\n- Ask questions about your ingested code\n\n**Example:**\n```/ingest https://github.com/git/git/blob/master/alloc.c\nThen ask: "What is the overview of the alloc.c file?"\n\n**Pro tip:** The AI agent automatically chooses the best search strategy (local, external, or hybrid) based on your question!'
     }
   ]);
   const [input, setInput] = useState('');
@@ -80,6 +80,20 @@ export default function ChatInterface() {
     const formatted = content
       .split('\n')
       .map((line, i) => {
+        // Headers
+        if (line.startsWith('# ')) {
+          return `<h1 class="text-2xl font-bold mt-4 mb-2 text-gray-100">${line.slice(2)}</h1>`;
+        }
+        if (line.startsWith('## ')) {
+          return `<h2 class="text-xl font-bold mt-3 mb-2 text-gray-200">${line.slice(3)}</h2>`;
+        }
+        if (line.startsWith('### ')) {
+          return `<h3 class="text-lg font-semibold mt-2 mb-1 text-gray-300">${line.slice(4)}</h3>`;
+        }
+        // Horizontal rule
+        if (line.trim() === '---') {
+          return `<hr class="my-3 border-slate-700" />`;
+        }
         // Bold text
         line = line.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
         // Code blocks
@@ -178,6 +192,13 @@ export default function ChatInterface() {
 
           {/* Example prompts */}
           <div className="mt-4 flex flex-wrap gap-2">
+            <button
+              type="button"
+              onClick={() => setInput('/help')}
+              className="text-xs px-3 py-1 bg-blue-600/50 text-gray-100 rounded-full hover:bg-blue-600 transition-all border border-blue-500/50"
+            >
+              ❓ Help
+            </button>
             <button
               type="button"
               onClick={() => setInput('Explain how this code works at a high level')}

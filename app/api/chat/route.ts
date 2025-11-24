@@ -54,6 +54,79 @@ export async function POST(req: NextRequest) {
 
     // Check if this is a slash command
     if (isSlashCommand(userMessage)) {
+      // Handle /help command
+      if (userMessage.trim() === '/help') {
+        const helpMessage = `# 🚀 SemSearch AI - How It Works
+
+**SemSearch AI** is an intelligent code understanding system that uses AI to help you explore and understand code repositories.
+
+## 📥 Ingesting Code
+
+Use the \`/ingest\` command to add files to the knowledge base:
+
+\`\`\`/ingest https://github.com/owner/repo/blob/main/src/main.cpp
+
+**What happens during ingestion:**
+1. **Fetches** the file from GitHub
+2. **Summarizes** the code using Claude AI
+3. **Creates embeddings** using OpenAI (1536-dimensional vectors)
+4. **Stores** in MongoDB Atlas with vector search index
+
+## 🔍 Search Strategies
+
+When you ask a question, an **AI agent (Claude Sonnet)** analyzes your query and intelligently chooses the best search strategy:
+
+### 1️⃣ Local Strategy
+- Searches only your **ingested code** in MongoDB
+- Uses **vector similarity search** with embeddings
+- Best for: Questions about specific code you've ingested
+- Example: *"How does the authentication function work?"*
+
+### 2️⃣ External Strategy (Tavily)
+- Searches **external documentation** and web resources
+- Uses Tavily's web search API
+- Best for: General programming concepts, syntax, library docs
+- Example: *"What is the difference between async and await?"*
+
+### 3️⃣ Hybrid Strategy
+- Searches **both local code AND external sources**
+- Combines results from MongoDB + Tavily
+- Best for: Complex questions needing both context and documentation
+- Example: *"How does this auth code compare to OAuth best practices?"*
+
+## 🤖 How the Agent Decides
+
+The AI agent uses **tool calling** to decide:
+1. Analyzes your question's intent
+2. Considers whether it's about local code or general knowledge
+3. Chooses the optimal strategy (local, external, or hybrid)
+4. Provides reasoning for its choice
+
+## ✨ Answer Synthesis
+
+After retrieving results, **Claude Haiku** synthesizes a natural language answer:
+- Combines information from all search results
+- Provides clear, concise explanations
+- Cites sources (file paths or web URLs)
+- Uses fast, cost-efficient Haiku model for speed
+
+## 🎯 Tips
+
+- **Ingest multiple files** to build a comprehensive knowledge base
+- **Ask specific questions** for local search
+- **Ask conceptual questions** to trigger external search
+- **Check the reasoning** footer to see which strategy was used
+
+---
+
+**Architecture:** FastAPI + MongoDB Atlas + Anthropic Claude + OpenAI + Tavily`;
+
+        return NextResponse.json({
+          role: 'assistant',
+          content: helpMessage,
+        });
+      }
+
       // Handle /ingest command
       const ingestParsed = parseIngestCommand(userMessage);
 
@@ -100,7 +173,7 @@ export async function POST(req: NextRequest) {
         // Unknown slash command
         return NextResponse.json({
           role: 'assistant',
-          content: `❌ **Unknown command**\n\nAvailable commands:\n- \`/ingest <repo_url> <file_path>\` - Ingest a file from a GitHub repository\n- \`/ingest <full_github_blob_url>\` - Ingest a file using a full GitHub URL\n\nExample: \`/ingest https://github.com/owner/repo src/main.py\``,
+          content: `❌ **Unknown command**\n\nAvailable commands:\n- \`/help\` - Learn how SemSearch AI works\n- \`/ingest <repo_url> <file_path>\` - Ingest a file from a GitHub repository\n- \`/ingest <full_github_blob_url>\` - Ingest a file using a full GitHub URL\n\nExample: \`/ingest https://github.com/owner/repo src/main.py\``,
         });
       }
     }
