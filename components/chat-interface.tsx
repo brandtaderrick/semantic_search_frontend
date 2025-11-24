@@ -12,7 +12,7 @@ export default function ChatInterface() {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'assistant',
-      content: '👋 Welcome! I can help you understand legacy code.\n\n**To get started:**\n1. Paste a GitHub file URL (e.g., `https://github.com/owner/repo/blob/main/path/to/file.cpp`)\n2. Once ingested, ask me questions about the code!\n\n**Example questions:**\n- "Explain how the find function works"\n- "What does this syntax mean: `if (condition) return value;`"\n- "Give me an overview of this file"'
+      content: '👋 Welcome! I can help you understand code from your ingested repositories.\n\n**To ingest a file, use the `/ingest` command:**\n- `/ingest https://github.com/owner/repo path/to/file.py`\n- `/ingest https://github.com/owner/repo/blob/main/path/to/file.cpp`\n\n**Then ask me questions:**\n- "Explain how the authentication works"\n- "What does this function do?"\n- "Give me an overview of this code"\n\n**Pro tip:** You can ingest multiple files and ask questions about all of them!'
     }
   ]);
   const [input, setInput] = useState('');
@@ -103,7 +103,7 @@ export default function ChatInterface() {
             SemSearch AI
           </h1>
           <p className="text-sm text-gray-400">
-            Paste a GitHub URL or ask questions about ingested code
+            Use /ingest to add code, then ask questions
           </p>
         </div>
         <Link
@@ -163,7 +163,7 @@ export default function ChatInterface() {
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Paste a GitHub URL or ask a question..."
+              placeholder="Type /ingest to add code, or ask a question..."
               disabled={isLoading}
               className="flex-1 px-4 py-3 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-slate-900/50 text-gray-200 placeholder-gray-500 disabled:opacity-50 disabled:cursor-not-allowed"
             />

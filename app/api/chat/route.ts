@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { parseGithubUrl, isGithubUrl, getApiUrl, formatError } from '@/lib/utils';
+import { parseGithubUrl, isGithubUrl, getApiUrl, formatError, isSlashCommand, parseIngestCommand } from '@/lib/utils';
 
 export const runtime = 'edge';
 
@@ -52,7 +52,60 @@ export async function POST(req: NextRequest) {
 
     const apiUrl = getApiUrl();
 
-    // Check if the message contains a GitHub URL
+    // Check if this is a slash command
+    if (isSlashCommand(userMessage)) {
+      // Handle /ingest command
+      const ingestParsed = parseIngestCommand(userMessage);
+
+      if (ingestParsed) {
+        // Call the ingest endpoint with parsed data
+        try {
+          const response = await fetch(`${apiUrl}/api/ingest/file`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              repo_url: ingestParsed.repo_url,
+              file_path: ingestParsed.file_path,
+            }),
+          });
+
+          if (!response.ok) {
+            const errorData = await response.json().catch(() => ({ detail: 'Unknown error' }));
+            throw new Error(errorData.detail || `HTTP ${response.status}`);
+          }
+
+          const data: IngestResponse = await response.json();
+
+          // Return a success message
+          const successMessage = `✅ **File ingested successfully!**\n\n` +
+            `**Repository:** ${data.repo_url}\n` +
+            `**File:** ${data.file_path}\n` +
+            `**Summary:** ${data.summary}\n\n` +
+            `The file has been embedded with ${data.embedding_dimensions} dimensions. You can now ask questions about this code!`;
+
+          return NextResponse.json({
+            role: 'assistant',
+            content: successMessage,
+          });
+        } catch (error) {
+          console.error('Ingestion error:', error);
+          return NextResponse.json({
+            role: 'assistant',
+            content: `❌ **Error ingesting file:** ${formatError(error)}\n\nPlease check the command format and try again.`,
+          });
+        }
+      } else {
+        // Unknown slash command
+        return NextResponse.json({
+          role: 'assistant',
+          content: `❌ **Unknown command**\n\nAvailable commands:\n- \`/ingest <repo_url> <file_path>\` - Ingest a file from a GitHub repository\n- \`/ingest <full_github_blob_url>\` - Ingest a file using a full GitHub URL\n\nExample: \`/ingest https://github.com/owner/repo src/main.py\``,
+        });
+      }
+    }
+
+    // Check if the message contains a GitHub URL (backward compatibility)
     if (isGithubUrl(userMessage)) {
       // Extract and parse the GitHub URL
       const githubUrl = userMessage.match(/https?:\/\/github\.com\/[\w-]+\/[\w.-]+\/blob\/[\w.-]+\/.+/)?.[0];

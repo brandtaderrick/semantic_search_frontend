@@ -62,3 +62,55 @@ export function formatError(error: unknown): string {
   }
   return 'An unexpected error occurred';
 }
+
+/**
+ * Check if a message is a slash command
+ */
+export function isSlashCommand(message: string): boolean {
+  return message.trim().startsWith('/');
+}
+
+/**
+ * Parse an /ingest command
+ * Supports two formats:
+ * 1. /ingest https://github.com/owner/repo/blob/main/path/to/file.py
+ * 2. /ingest https://github.com/owner/repo path/to/file.py
+ */
+export function parseIngestCommand(message: string): { repo_url: string; file_path: string } | null {
+  const trimmed = message.trim();
+
+  // Check if it's an ingest command
+  if (!trimmed.startsWith('/ingest ')) {
+    return null;
+  }
+
+  // Remove the /ingest prefix
+  const args = trimmed.substring(8).trim();
+
+  // Try to parse as full GitHub blob URL first
+  const blobMatch = args.match(/^(https?:\/\/github\.com\/[\w-]+\/[\w.-]+)\/blob\/[\w.-]+\/(.+)$/);
+  if (blobMatch) {
+    return {
+      repo_url: blobMatch[1],
+      file_path: blobMatch[2]
+    };
+  }
+
+  // Try to parse as repo URL + file path
+  const parts = args.split(/\s+/);
+  if (parts.length >= 2) {
+    const repoUrl = parts[0];
+    const filePath = parts.slice(1).join(' ');
+
+    // Validate repo URL format
+    const repoMatch = repoUrl.match(/^https?:\/\/github\.com\/([\w-]+)\/([\w.-]+)(\.git)?$/);
+    if (repoMatch) {
+      return {
+        repo_url: `https://github.com/${repoMatch[1]}/${repoMatch[2]}`,
+        file_path: filePath
+      };
+    }
+  }
+
+  return null;
+}
