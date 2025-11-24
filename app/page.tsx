@@ -11,15 +11,56 @@ export default function Home() {
 
       {/* Content Overlay */}
       <div className="relative z-10 min-h-screen bg-gradient-to-br from-slate-950/90 via-slate-900/80 to-slate-950/90">
-        <div className="max-w-6xl mx-auto px-4 py-16">
+        {/* Top Navigation */}
+        <nav className="max-w-6xl px-4 py-4">
+          <div className="text-2xl font-bold bg-gray-400 font-mono opacity-20 bg-clip-text text-transparent">
+            SemSearch AI
+          </div>
+        </nav>
+
+        <div className="max-w-6xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="text-center mb-16">
-          <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+          <h1 className="pb-3 text-5xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
             Semantic Search for Legacy Code
           </h1>
           <p className="text-xl text-gray-300 max-w-2xl mx-auto">
             Reduce onboarding time by 40%. AI-powered search that understands your legacy codebase.
           </p>
+
+          {/* Powered By Section */}
+          <div className="mt-12">
+            <p className="text-sm text-gray-400 mb-6 uppercase tracking-wider">Powered By</p>
+            <div className="flex items-center justify-center gap-12 flex-wrap">
+              {/* MongoDB Vector Search Logo */}
+              <div className="flex items-center gap-4 px-8 py-4 bg-slate-800/30 backdrop-blur-sm border border-slate-700/30 rounded-lg hover:bg-slate-800/50 transition-all">
+                <img
+                  src="/mongodb-logo.svg"
+                  alt="MongoDB Vector Search"
+                  className="w-12 h-12"
+                />
+                <div className="text-left">
+                  <div className="text-white font-semibold text-xl">MongoDB</div>
+                  <div className="text-gray-400 text-sm">Vector Search</div>
+                </div>
+              </div>
+
+              {/* Tavily Logo */}
+              <div className="flex items-center gap-4 px-8 py-4 bg-slate-800/30 backdrop-blur-sm border border-slate-700/30 rounded-lg hover:bg-slate-800/50 transition-all">
+                <div className="w-12 h-12 rounded-lg flex items-center justify-center">
+                  <img
+                  src="/tavily-color.svg"
+                  alt="MongoDB Vector Search"
+                  className="w-12 h-12"
+                />
+                </div>
+                <div className="text-left">
+                  <div className="text-white font-semibold text-xl">Tavily</div>
+                  <div className="text-gray-400 text-sm">AI Search</div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Value Proposition */}
