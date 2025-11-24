@@ -84,10 +84,10 @@ export default function ChatInterface() {
         line = line.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
         // Code blocks
         if (line.startsWith('```')) {
-          return `<pre class="bg-gray-800 text-gray-100 p-3 rounded my-2 overflow-x-auto"><code>${line.slice(3)}</code></pre>`;
+          return `<pre class="bg-slate-900 text-gray-100 p-3 rounded my-2 overflow-x-auto border border-slate-700/50"><code>${line.slice(3)}</code></pre>`;
         }
         // Inline code
-        line = line.replace(/`(.+?)`/g, '<code class="bg-gray-200 dark:bg-gray-700 px-1 rounded">$1</code>');
+        line = line.replace(/`(.+?)`/g, '<code class="bg-slate-900 text-blue-300 px-1.5 py-0.5 rounded border border-slate-700/50">$1</code>');
         return line;
       })
       .join('<br/>');
@@ -95,20 +95,20 @@ export default function ChatInterface() {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="flex flex-col h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
       {/* Header */}
-      <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4 flex items-center justify-between">
+      <div className="bg-slate-800/50 backdrop-blur-sm border-b border-slate-700/50 px-6 py-4 flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold text-gray-900 dark:text-white">
-            Semantic Search Chat
+          <h1 className="text-xl font-bold font-mono text-gray-400 opacity-50">
+            SemSearch AI
           </h1>
-          <p className="text-sm text-gray-600 dark:text-gray-400">
+          <p className="text-sm text-gray-400">
             Paste a GitHub URL or ask questions about ingested code
           </p>
         </div>
         <Link
           href="/"
-          className="text-sm text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
+          className="text-sm text-blue-400 hover:text-blue-300 transition-colors"
         >
           ← Back to Home
         </Link>
@@ -124,13 +124,13 @@ export default function ChatInterface() {
             <div
               className={`max-w-3xl rounded-lg px-6 py-4 ${
                 message.role === 'user'
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700'
+                  ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white'
+                  : 'bg-slate-800/60 backdrop-blur-sm text-gray-300 border border-slate-700/50'
               }`}
             >
               {message.role === 'assistant' ? (
                 <div
-                  className="prose dark:prose-invert max-w-none"
+                  className="prose dark:prose-invert max-w-none leading-relaxed"
                   dangerouslySetInnerHTML={{ __html: formatMessage(message.content) }}
                 />
               ) : (
@@ -142,11 +142,11 @@ export default function ChatInterface() {
 
         {isLoading && (
           <div className="flex justify-start">
-            <div className="max-w-3xl rounded-lg px-6 py-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+            <div className="max-w-3xl rounded-lg px-6 py-4 bg-slate-800/50 backdrop-blur-sm border border-slate-700/50">
               <div className="flex items-center space-x-2">
-                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
               </div>
             </div>
           </div>
@@ -156,7 +156,7 @@ export default function ChatInterface() {
       </div>
 
       {/* Input */}
-      <div className="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 p-6">
+      <div className="bg-slate-800/50 backdrop-blur-sm border-t border-slate-700/50 p-6">
         <form onSubmit={handleSubmit} className="max-w-4xl mx-auto">
           <div className="flex space-x-4">
             <input
@@ -165,12 +165,12 @@ export default function ChatInterface() {
               onChange={(e) => setInput(e.target.value)}
               placeholder="Paste a GitHub URL or ask a question..."
               disabled={isLoading}
-              className="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex-1 px-4 py-3 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-slate-900/50 text-gray-200 placeholder-gray-500 disabled:opacity-50 disabled:cursor-not-allowed"
             />
             <button
               type="submit"
               disabled={isLoading || !input.trim()}
-              className="px-8 py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-medium rounded-lg transition-colors"
+              className="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:from-gray-600 disabled:to-gray-600 disabled:cursor-not-allowed text-white font-medium rounded-lg transition-all shadow-lg"
             >
               {isLoading ? 'Sending...' : 'Send'}
             </button>
@@ -181,21 +181,21 @@ export default function ChatInterface() {
             <button
               type="button"
               onClick={() => setInput('Explain how this code works at a high level')}
-              className="text-xs px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600"
+              className="text-xs px-3 py-1 bg-slate-700/50 text-gray-300 rounded-full hover:bg-slate-700 transition-all"
             >
               💡 Overview
             </button>
             <button
               type="button"
               onClick={() => setInput('What is the purpose of this file?')}
-              className="text-xs px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600"
+              className="text-xs px-3 py-1 bg-slate-700/50 text-gray-300 rounded-full hover:bg-slate-700 transition-all"
             >
               📋 Purpose
             </button>
             <button
               type="button"
               onClick={() => setInput('Are there any unusual patterns or anti-patterns in this code?')}
-              className="text-xs px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600"
+              className="text-xs px-3 py-1 bg-slate-700/50 text-gray-300 rounded-full hover:bg-slate-700 transition-all"
             >
               🔍 Code Review
             </button>
