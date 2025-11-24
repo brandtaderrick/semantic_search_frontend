@@ -195,7 +195,7 @@ export default function ChatInterface() {
             <button
               type="button"
               onClick={() => setInput('/help')}
-              className="text-xs px-3 py-1 bg-blue-600/50 text-gray-100 rounded-full hover:bg-blue-600 transition-all border border-blue-500/50"
+              className="text-xs px-3 py-1 bg-slate-700/50 text-gray-300 rounded-full hover:bg-blue-600 hover:text-gray-100 transition-all"
             >
               ❓ Help
             </button>
